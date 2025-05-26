@@ -1,0 +1,31 @@
+stages:
+  data_ingestion:
+    cmd: python src/swahiliNewsClassifier/pipeline/stage_01_data_ingestion.py
+    deps:
+      - src/swahiliNewsClassifier/pipeline/stage_01_data_ingestion.py
+      - config/config.yaml
+    outs:
+      - artifacts/data_ingestion/decompressed
+
+  training_and_evaluation:
+    cmd: python src/swahiliNewsClassifier/pipeline/stage_02_model_training_and_evaluation.py
+    deps:
+      - src/swahiliNewsClassifier/pipeline/stage_02_model_training_and_evaluation.py
+      - config/config.yaml
+      - artifacts/data_ingestion/decompressed
+    params:
+      - LEARNING_RATE_1
+      - LEARNING_RATE_2
+      - LEARNING_RATE_3
+      - LEARNING_RATE_4
+      - LEARNING_RATE_5
+      - EPOCHS_1
+      - EPOCHS_2
+      - EPOCHS_3
+      - EPOCHS_4
+      - EPOCHS_5
+      - BATCH_SIZE_1
+      - BATCH_SIZE_2
+      - TEST_SIZE
+    outs:
+      - models/text_classifier_learner.pkl
